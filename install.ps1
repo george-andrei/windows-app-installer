@@ -1,5 +1,5 @@
 Param(
-    [string]$applist = "https://raw.githubusercontent.com/maheshrijal/windows-app-installer/main/applist"
+    [string]$applist = "applist"
 )
 
 try {
@@ -23,9 +23,9 @@ try {
     # Install the apps
     foreach ($app in $appListContent) {
         Write-Host "Installing app: $app"
-        winget.exe install -e --id $app
+        $appID = $app.Split('#')[0].Trim()
+        winget.exe install -e --id $appID --accept-package-agreements
     }
-}
-catch {
+} catch {
     Write-Host "Error: $_"
 }
